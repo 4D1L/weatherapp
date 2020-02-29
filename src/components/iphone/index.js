@@ -1,5 +1,6 @@
 // import preact
 import { h, render, Component } from 'preact';
+
 // import stylesheets for ipad & button
 import style from './style';
 import style_iphone from '../button/style_iphone';
@@ -7,6 +8,8 @@ import style_iphone from '../button/style_iphone';
 import $ from 'jquery';
 // import the Button component
 import Button from '../button';
+
+import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
@@ -52,11 +55,18 @@ export default class Iphone extends Component {
 					<span class={ tempStyles }>{ this.state.temp }</span>
 				</div>
 				<div class={ style.buttons }>
-					<div style="border-radius: 100%; background: red;">
-						<p>Test</p>
+					<div>
+						<span className="fa-layers fa-fw fa-3x">
+							<FontAwesomeIcon icon="circle" color="green" transform="shrink-2" />
+							<FontAwesomeIcon icon="tshirt" inverse transform="shrink-8" />
+						</span>
+						
 					</div>
 					<div>
-						<p>Test1</p>
+						<span className="fa-layers fa-fw fa-3x">
+							<FontAwesomeIcon icon="circle" color="green" transform="shrink-2" />
+							<FontAwesomeIcon icon="info" inverse transform="shrink-8" />
+						</span>
 					</div>
 				</div>
 				<div class={ style.details }>

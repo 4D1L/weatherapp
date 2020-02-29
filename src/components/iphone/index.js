@@ -42,6 +42,10 @@ export default class Iphone extends Component {
 		this.setState({ display: false });
 	}
 
+	buttonRowHandler(button) {
+		console.log(`${button} button pressed!`)
+	}
+
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
@@ -55,7 +59,7 @@ export default class Iphone extends Component {
 					<div class={ style.conditions }>{ this.state.cond }</div>
 					<span class={ tempStyles }>{ this.state.temp }</span>
 				</div>
-				<ButtonRow/ >
+				<ButtonRow action={this.buttonRowHandler} />
 				<div class={ style.details }>
 					<p>Weather</p>
 				</div>

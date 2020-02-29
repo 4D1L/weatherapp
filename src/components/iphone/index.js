@@ -17,9 +17,13 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({ display: true });
+		this.setState({ display: false });
 	}
 
+	componentDidMount()
+	{
+		this.fetchWeatherData();
+	}
 	// a call to fetch weather data via wunderground
 	fetchWeatherData = () => {
 		// API URL with a structure of : ttp://api.wunderground.com/api/key/feature/q/country-code/city.json

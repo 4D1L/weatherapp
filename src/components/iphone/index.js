@@ -8,6 +8,7 @@ import style_iphone from '../button/style_iphone';
 import $ from 'jquery';
 // import the Button component
 import Button from '../button';
+import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 
@@ -54,21 +55,7 @@ export default class Iphone extends Component {
 					<div class={ style.conditions }>{ this.state.cond }</div>
 					<span class={ tempStyles }>{ this.state.temp }</span>
 				</div>
-				<div class={ style.buttons }>
-					<div>
-						<span className="fa-layers fa-fw fa-3x">
-							<FontAwesomeIcon icon="circle" color="#d7e102" transform="shrink-2" />
-							<FontAwesomeIcon icon="tshirt" inverse transform="shrink-8" />
-						</span>
-						
-					</div>
-					<div>
-						<span className="fa-layers fa-fw fa-3x">
-							<FontAwesomeIcon icon="circle" color="green" transform="shrink-2" />
-							<FontAwesomeIcon icon="info" inverse transform="shrink-8" />
-						</span>
-					</div>
-				</div>
+				<ButtonRow/ >
 				<div class={ style.details }>
 					<p>Weather</p>
 				</div>

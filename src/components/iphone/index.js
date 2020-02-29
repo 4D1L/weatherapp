@@ -57,7 +57,7 @@ export default class Iphone extends Component {
 				<div class={ style.buttons }>
 					<div>
 						<span className="fa-layers fa-fw fa-3x">
-							<FontAwesomeIcon icon="circle" color="green" transform="shrink-2" />
+							<FontAwesomeIcon icon="circle" color="#d7e102" transform="shrink-2" />
 							<FontAwesomeIcon icon="tshirt" inverse transform="shrink-8" />
 						</span>
 						

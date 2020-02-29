@@ -1,6 +1,13 @@
 // import preact
 import { h, Component } from 'preact';
 
+//FontAwesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faCheckSquare, faCoffee, faTshirt, faInfo } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fab, faCheckSquare, faCoffee, faTshirt, faInfo)
+
 // import required Components from 'components/'
 import Iphone from './iphone';
 import Ipad from './ipad';

@@ -73,6 +73,11 @@
     "webpack-dev-server": "^1.15.0"
   },
   "dependencies": {
+    "@aduh95/preact-fontawesome": "^0.1.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.12.1",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "preact": "^6.0.0",
     "preact-compat": "^3.0.0",
     "preact-router": "^2.0.0",

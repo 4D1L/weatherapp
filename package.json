@@ -1,5 +1,5 @@
 {
-  "name": "weatherapp-boilerplate",
+  "name": "weatherapp",
   "version": "1.1.0",
   "description": "Preact starter project for a weather app powered by webpack.",
   "scripts": {
@@ -42,7 +42,7 @@
     "html-webpack-plugin": "^2.22.0",
     "isparta-loader": "^2.0.0",
     "jquery": "3.1.1",
-    "json-loader": "^0.5.4",
+    "json-loader": "^0.5.7",
     "karma": "^1.0.0",
     "karma-chai": "^0.1.0",
     "karma-chai-sinon": "^0.1.5",

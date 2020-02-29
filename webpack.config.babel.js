@@ -72,7 +72,7 @@ module.exports = {
 			},
 			{
 				test: /\.json$/,
-				loader: 'json'
+				loader: 'json-loader'
 			},
 			{
 				test: /\.(xml|html|txt|md)$/,
@@ -154,7 +154,7 @@ module.exports = {
 		Buffer: false,
 		__filename: false,
 		__dirname: false,
-		setImmediate: false
+		setImmediate: false,
 	},
 
 	devtool: ENV==='production' ? 'source-map' : 'cheap-module-eval-source-map',

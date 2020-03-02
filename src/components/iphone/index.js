@@ -43,7 +43,7 @@ export default class Iphone extends Component {
 	}
 
 	buttonRowHandler(button) {
-		console.log(`${button} button pressed!`)
+		alert(`${button} button pressed!`)
 	}
 
 	// the main render method for the iphone component

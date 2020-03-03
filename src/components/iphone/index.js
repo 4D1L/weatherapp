@@ -11,6 +11,7 @@ import Button from '../button';
 import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
+import ClothingPanel from '../clothingPanel';
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
@@ -43,7 +44,10 @@ export default class Iphone extends Component {
 	}
 
 	buttonRowHandler(button) {
-		alert(`${button} button pressed!`)
+		if(button == 'CLOTHING')
+		{
+			this.clothingPanel.toggle();
+		}
 	}
 
 	// the main render method for the iphone component
@@ -59,7 +63,12 @@ export default class Iphone extends Component {
 					<div class={ style.conditions }>{ this.state.cond }</div>
 					<span class={ tempStyles }>{ this.state.temp }</span>
 				</div>
-				<ButtonRow action={this.buttonRowHandler} />
+				<ButtonRow action={this.buttonRowHandler.bind(this)} />
+
+				<section>
+					<ClothingPanel ref={(comp) => this.clothingPanel = comp} />
+				</section>
+
 				<div class={ style.details }>
 					<p>Weather</p>
 				</div>

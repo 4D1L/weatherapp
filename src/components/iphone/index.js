@@ -22,7 +22,11 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({ display: false });
+		this.setState({ 
+			display: false,
+			todayMin: "",
+			todayMax: ""
+		});
 	}
 
 	componentDidMount()
@@ -61,7 +65,11 @@ export default class Iphone extends Component {
 				<div class={ style.header }>
 					<div class={ style.city }>{ this.state.locate }</div>
 					<div class={ style.conditions }>{ this.state.cond }</div>
-					<span class={ tempStyles }>{ this.state.temp }</span>
+					<div class={ style.currentTemperatures }>
+						<span class={ style.min }>Min: { this.state.todayMin }</span>
+						<span class={ tempStyles }>{ this.state.temp }</span>
+						<span class={ style.max }>Max: { this.state.todayMax }</span>
+					</div>
 				</div>
 				<ButtonRow action={this.buttonRowHandler.bind(this)} />
 
@@ -71,6 +79,7 @@ export default class Iphone extends Component {
 
 				<div class={ style.details }>
 					<p>Weather</p>
+					<hr></hr>
 				</div>
 				<div class= { style_iphone.container }> 
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
@@ -85,11 +94,54 @@ export default class Iphone extends Component {
 		var temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
 		var conditions = parsed_json['list']['0']['weather']['0']['description'];
 
+		var minTempToday = this.getMinTemp(parsed_json, 0);
+		var maxTempToday = this.getMaxTemp(parsed_json, 0);
+		console.log(minTempToday);
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,
 			temp: temp_c,
-			cond : conditions
+			cond : conditions,
+			todayMin: minTempToday,
+			todayMax: maxTempToday
 		});      
 	}
+
+	getMinTemp = (weatherData, day) => {
+		let minimum = null;
+		for(let i = 0; i <= day + 7; i++) {
+			let index = i.toString();
+			if(minimum === null) {
+				minimum = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
+				continue;
+			}
+
+			let temp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
+
+			if(temp < minimum) {
+				minimum = temp;
+			}
+		}
+
+		return minimum;
+	};
+
+	getMaxTemp = (weatherData, day) => {
+		let maximum = null;
+		for(let i = 0; i <= day + 7; i++) {
+			let index = i.toString();
+			if(maximum === null) {
+				maximum = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
+				continue;
+			}
+
+			let temp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
+
+			if(temp > maximum) {
+				maximum = temp;
+			}
+		}
+
+		return maximum;
+	};
 }

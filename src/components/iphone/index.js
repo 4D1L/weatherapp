@@ -25,6 +25,7 @@ export default class Iphone extends Component {
 		// button display state
 		this.setState({ 
 			display: false,
+			displayHourly: false,
 			todayMin: "",
 			todayMax: "",
 			//weatherData: []
@@ -53,6 +54,15 @@ export default class Iphone extends Component {
 		if(button == 'CLOTHING')
 		{
 			this.clothingPanel.toggle();
+		} else if(button == "WEATHERPANEL")
+		{
+			if(this.state.displayHourly == false)
+			{
+				this.setState({ displayHourly: true });
+				console.log('CHANGE to hourly;');				
+			} else {
+				this.setState({ displayHourly: false });
+			}
 		}
 	}
 
@@ -80,10 +90,13 @@ export default class Iphone extends Component {
 				</section>
 
 				<section class={ style.details }>
-					<WeatherPanel data = {this.state.weatherData} />
+					{this.state.displayHourly
+						? null
+						: <WeatherPanel data = {this.state.weatherData} />
+					}
+					
 				</section>
 				<div class= { style_iphone.container }> 
-					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
 			</div>
 		);

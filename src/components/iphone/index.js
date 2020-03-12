@@ -12,6 +12,7 @@ import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 import ClothingPanel from '../clothingPanel';
+import WeatherPanel from '../weatherPanel';
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
@@ -25,7 +26,8 @@ export default class Iphone extends Component {
 		this.setState({ 
 			display: false,
 			todayMin: "",
-			todayMax: ""
+			todayMax: "",
+			//weatherData: []
 		});
 	}
 
@@ -77,10 +79,9 @@ export default class Iphone extends Component {
 					<ClothingPanel ref={(comp) => this.clothingPanel = comp} />
 				</section>
 
-				<div class={ style.details }>
-					<p>Weather</p>
-					<hr></hr>
-				</div>
+				<section class={ style.details }>
+					<WeatherPanel data = {this.state.weatherData} />
+				</section>
 				<div class= { style_iphone.container }> 
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
@@ -89,27 +90,28 @@ export default class Iphone extends Component {
 	}
 
 	parseResponse = (parsed_json) => {
-		console.log(parsed_json);
+		//console.log(parsed_json);
 		var location = parsed_json['city']['name'];
 		var temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
 		var conditions = parsed_json['list']['0']['weather']['0']['description'];
 
-		var minTempToday = this.getMinTemp(parsed_json, 0);
-		var maxTempToday = this.getMaxTemp(parsed_json, 0);
-		console.log(minTempToday);
+		var minTempToday = this.getTodayMinTemp(parsed_json) + "°";
+		var maxTempToday = this.getTodayMaxTemp(parsed_json) + "°";
+		//console.log(minTempToday);
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,
 			temp: temp_c,
 			cond : conditions,
 			todayMin: minTempToday,
-			todayMax: maxTempToday
+			todayMax: maxTempToday,
+			weatherData: parsed_json
 		});      
 	}
 
-	getMinTemp = (weatherData, day) => {
+	getTodayMinTemp = (weatherData) => {
 		let minimum = null;
-		for(let i = 0; i <= day + 7; i++) {
+		for(let i = 0; i <= 7; i++) {
 			let index = i.toString();
 			if(minimum === null) {
 				minimum = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
@@ -126,9 +128,9 @@ export default class Iphone extends Component {
 		return minimum;
 	};
 
-	getMaxTemp = (weatherData, day) => {
+	getTodayMaxTemp = (weatherData) => {
 		let maximum = null;
-		for(let i = 0; i <= day + 7; i++) {
+		for(let i = 0; i <= 7; i++) {
 			let index = i.toString();
 			if(maximum === null) {
 				maximum = parseInt(weatherData['list'][index]['main']['temp_max'], 10);

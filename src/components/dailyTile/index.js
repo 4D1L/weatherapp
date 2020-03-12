@@ -24,10 +24,10 @@ export default class DailyTile extends Component {
 
                 <div className={style.right}>
                     <div className={style.temps}>
-                        <div>
+                        <div className={style.min}>
                             {this.props.data[1]}°
                         </div>
-                        <div>
+                        <div className={style.max}>
                             {this.props.data[2]}°
                         </div>
                     </div>

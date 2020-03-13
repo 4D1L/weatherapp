@@ -11,53 +11,55 @@ export default class WeatherPanel extends Component {
 	constructor(props){
 		super(props);
 
-		let now = new Date();
+		// Set initial states
 		this.setState({
+			// A state to control the UI from parsing data.
 			weatherDataParsed: false,
+
+			// WeatherPanel display state.
 			showDaily: true,
-			currentHour: now.getHours(),
+
+			// States to hold data for each column in the panel.
 			element0Data: [],
 			element1Data: [],
 			element2Data: [],
 			element3Data: [],
 			element4Data: [],
+
+			// display state
+			display: true
 		});
 	}
 
-	state = {
-		display: true,
-	}
-
 	toggle = (state) => {
+		// If a boolean value is not defined, inverse the state, otherwise set the value.
 		if(typeof state === 'undefined') {
 			this.setState({ showDaily: !this.state.showDaily });
 		} else if(typeof state === 'boolean') {
             this.setState({ showDaily: state });
 		}
 
+		// Parse the data according to the new display state.
 		this.setState({ weatherDataParsed: false });
-		if(this.state.showDaily)
-		{
-			//if(WeatherData instanceof Object)
-			//{
-				this.parseData(this.props.data, "DAILY");
-			//}
+
+		if(this.state.showDaily) {
+			this.parseData(this.props.data, "DAILY");
 		} else {
-			//if(WeatherData instanceof Object)
-			//{
-				console.log('Prepare hourly');
-				//this.parseData(WeatherData, "HOURLY");
-			//}			
+			this.parseData(this.props.data, "HOURLY");
 		}
 	}
 
 	// rendering a function when the button is clicked
 	render() {
 		var WeatherData = this.props.data;
+
+		// If the API data fetched by the parent has failed to load, do not parse the data.
 		if(!(WeatherData instanceof Object))
 		{
-			return console.log('not array');
+			return;
 		}
+
+		// If the data has successfully been retrieved, parse it depending on the view requested.
 		if(!this.state.weatherDataParsed)
 		{
 			if(this.state.showDaily)
@@ -71,7 +73,7 @@ export default class WeatherPanel extends Component {
 		if(this.state.display)
 		{
 			return (
-				<div className={style.panel}> 
+				<div className={style.panel}>
 					{this.state.showDaily
 						? <h1>This week</h1>
 						: <h1>Today</h1>
@@ -117,6 +119,7 @@ export default class WeatherPanel extends Component {
 
 	parseData(weatherData, type)
 	{
+		// Parse the data depending on the type needed.
 		if(type == "DAILY")
 		{
 			this.parseDailyData(weatherData);
@@ -128,10 +131,12 @@ export default class WeatherPanel extends Component {
 
 	parseDailyData(weatherData)
 	{
+		// Store the timestamp of the weather forecast.
 		let timestamp = weatherData['list']['7']['dt'];
 		let day = new Date(timestamp * 1000);
 		let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+		// For each of the readings available, calculating the minimum and the maximum temperature.
 		let firstDayMinTemp = null;
 		let firstDayMaxTemp = null;
 		for(let hours = 0; hours <= 7; hours++)
@@ -157,13 +162,17 @@ export default class WeatherPanel extends Component {
 			if(maxHourlytemp > firstDayMaxTemp)
 				firstDayMaxTemp = maxHourlytemp;		
 		}
+		
+		// Populate the first tile with the data that was found.
 		this.setState({ element0Data : [days[day.getDay()%7], firstDayMinTemp, firstDayMaxTemp] });
 
-
+		// Find the minimum and maximum temperature for the remaining days as they have full data sets.
 		for(let dayIndex = 1; dayIndex <= 4; dayIndex++)
 		{
 			let minimumTemp = null;
 			let maximumTemp = null;
+
+			// Calculate the position in the list by using the day an dthe hour.
 			for(let hourIndex = (dayIndex * 8) - 1; hourIndex <= ((dayIndex + 1) * 8) - 2; hourIndex++)
 			{
 				let index = hourIndex.toString();
@@ -175,7 +184,6 @@ export default class WeatherPanel extends Component {
 					maximumTemp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
 					continue;
 				}
-
 
 				let minHourlytemp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
 				if(minHourlytemp < minimumTemp) {
@@ -189,6 +197,7 @@ export default class WeatherPanel extends Component {
 
 			}
 
+			// Populate the tile with the correct data.
 			if(dayIndex == 1)
 				this.setState({ element1Data: [days[(day.getDay()+1)%7], minimumTemp, maximumTemp] });
 			else if(dayIndex == 2)
@@ -199,23 +208,28 @@ export default class WeatherPanel extends Component {
 				this.setState({ element4Data: [days[(day.getDay()+4)%7], minimumTemp, maximumTemp] });				
 		}
 
+		// As the data has been parsed, prevent it from being parsed again.
 		this.setState({
-			element1Title: days[day.getDay()%7],
 			weatherDataParsed : true
 		});
 	}
 
 	parseHourlyData(weatherData)
 	{
-		console.log(weatherData);
+		// Populate the first tile's data.
 		this.setState({ element0Data: ['Now', Math.floor(weatherData['list']['0']['main']['temp'])] });
 
 		for(let index = 1; index <= 4; index++)
 		{
+			// For the four remaining hours, fetch the time string and temperature.
 			let key = index.toString();
+
+			// Create a date object from the time string and then get the hour from that timestamp.
 			let hour = new Date(weatherData['list'][key].dt_txt).getHours();
+
 			let temp = Math.floor(weatherData['list'][key]['main']['temp']);
 
+			// Populate the remaining tiles.
 			if(index == 1)
 				this.setState({ element1Data: [hour, temp] });
 			else if(index == 2)
@@ -226,6 +240,7 @@ export default class WeatherPanel extends Component {
 				this.setState({ element4Data: [hour, temp] });	
 		}
 
+		// As the data has been parsed, prevent it from being parsed again.
 		this.setState({
 			weatherDataParsed : true
 		});

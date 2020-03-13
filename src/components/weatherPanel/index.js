@@ -69,7 +69,11 @@ export default class WeatherPanel extends Component {
 		{
 			return (
 				<div className={style.panel}> 
-					<h1>Weather</h1>
+					{this.state.showDaily
+						? <h1>This week</h1>
+						: <h1>Today</h1>
+					}
+					
 					<div className={style.weatherTable}>
 						<div className={style.day}>
 							{this.state.showDaily

@@ -11,6 +11,7 @@ export default class WeatherPanel extends Component {
 		super(props);
 		this.setState({
 			weatherDataParsed: false,
+			showDaily: true,
 			element0Data: [],
 			element1Data: [],
 			element2Data: [],
@@ -24,24 +25,43 @@ export default class WeatherPanel extends Component {
 	}
 
 	toggle = (state) => {
-		if(typeof state === 'undefined')
-            //this.setState({ display: !this.state.display });
-            console.log('toggle')
-		else if(typeof state === 'boolean')
-            //this.setState({ display: state })
-            console.log('toggle')
+		if(typeof state === 'undefined') {
+			this.setState({ showDaily: !this.state.showDaily });
+		} else if(typeof state === 'boolean') {
+            this.setState({ showDaily: state });
+		}
+
+		this.setState({ weatherDataParsed: false });
+		if(this.state.showDaily)
+		{
+			//if(WeatherData instanceof Object)
+			//{
+				this.parseData(this.props.data, "DAILY");
+			//}
+		} else {
+			//if(WeatherData instanceof Object)
+			//{
+				console.log('Prepare hourly');
+				//this.parseData(WeatherData, "HOURLY");
+			//}			
+		}
 	}
 
 	// rendering a function when the button is clicked
 	render() {
-		let WeatherData = this.props.data;
+		var WeatherData = this.props.data;
 		if(!(WeatherData instanceof Object))
 		{
 			return console.log('not array');
 		}
 		if(!this.state.weatherDataParsed)
 		{
-			this.parseData(WeatherData, "DAILY");
+			if(this.state.showDaily)
+			{
+				this.parseData(WeatherData, "DAILY");
+			} else {
+				this.parseData(WeatherData, "HOURLY");
+			}
 		}
 		
 		console.log(WeatherData);
@@ -52,19 +72,35 @@ export default class WeatherPanel extends Component {
 					<h1>Weather</h1>
 					<div className={style.weatherTable}>
 						<div className={style.day}>
-							<DailyTile data = {this.state.element0Data} />
+							{this.state.showDaily
+								? <DailyTile data = {this.state.element0Data} />
+								: null
+							}
+							
 						</div>
 						<div className={style.day}>
-							<DailyTile data = {this.state.element1Data} />
+							{this.state.showDaily
+								? <DailyTile data = {this.state.element1Data} />
+								: null
+							}
 						</div>
 						<div className={style.day}>
-							<DailyTile data = {this.state.element2Data} />
+							{this.state.showDaily
+								? <DailyTile data = {this.state.element2Data} />
+								: null
+							}
 						</div>
 						<div className={style.day}>
-							<DailyTile data = {this.state.element3Data} />
+							{this.state.showDaily
+								? <DailyTile data = {this.state.element3Data} />
+								: null
+							}
 						</div>
 						<div className={style.day}>
-							<DailyTile data = {this.state.element4Data} />
+							{this.state.showDaily
+								? <DailyTile data = {this.state.element4Data} />
+								: null
+							}
 						</div>
 					</div>
 				</div>
@@ -142,7 +178,6 @@ export default class WeatherPanel extends Component {
 				}
 
 			}
-			console.log(minimumTemp);
 
 			if(dayIndex == 1)
 				this.setState({ element1Data: [days[(day.getDay()+1)%7], minimumTemp, maximumTemp] });

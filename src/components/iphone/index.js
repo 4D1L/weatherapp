@@ -12,6 +12,7 @@ import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 import ClothingPanel from '../clothingPanel';
+import InfoPanel from '../infoPanel';
 import WeatherPanel from '../weatherPanel';
 
 export default class Iphone extends Component {
@@ -36,6 +37,7 @@ export default class Iphone extends Component {
 	{
 		this.fetchWeatherData();
 	}
+
 	// a call to fetch weather data via wunderground
 	fetchWeatherData = () => {
 		// API URL with a structure of : ttp://api.wunderground.com/api/key/feature/q/country-code/city.json
@@ -51,11 +53,27 @@ export default class Iphone extends Component {
 	}
 
 	buttonRowHandler(button) {
-		if(button == 'CLOTHING')
+		if(button == 'CLOTHING' || button == 'INFO')
 		{
-			this.clothingPanel.toggle();
+			if(button == 'CLOTHING')
+			{	
+				if(this.infoPanel.state.display)
+				{
+					this.infoPanel.toggle();
+				}
+				this.clothingPanel.toggle();
+			} else if(button == 'INFO')
+			{
+				if(this.clothingPanel.state.display)
+				{
+					this.clothingPanel.toggle();
+				}
+				this.infoPanel.toggle();
+			}
+			
 		} else if(button == "WEATHERPANEL")
 		{
+			this.weatherPanel.toggle();
 			if(this.state.displayHourly == false)
 			{
 				this.setState({ displayHourly: true });
@@ -87,14 +105,11 @@ export default class Iphone extends Component {
 
 				<section>
 					<ClothingPanel ref={(comp) => this.clothingPanel = comp} />
+					<InfoPanel ref={(comp) => this.infoPanel = comp} />
 				</section>
 
 				<section class={ style.details }>
-					{this.state.displayHourly
-						? null
-						: <WeatherPanel data = {this.state.weatherData} />
-					}
-					
+					<WeatherPanel data={this.state.weatherData} ref={(comp) => this.weatherPanel = comp} />
 				</section>
 				<div class= { style_iphone.container }> 
 				</div>

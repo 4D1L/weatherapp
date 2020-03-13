@@ -13,25 +13,24 @@ export default class DailyTile extends Component {
 	render() {
         return (
             <div className={style.tile}> 
-                <div className={style.icon}>
-                    ICON
-                </div>
-
-
                 <div className={style.heading}>
                     {this.props.data[0]}
                 </div>
 
-                <div className={style.right}>
-                    <div className={style.temps}>
-                        <div className={style.min}>
-                            {this.props.data[1]}°
-                        </div>
-                        <div className={style.max}>
-                            {this.props.data[2]}°
-                        </div>
+                <div className={style.icon}>
+                    <img style="width: 55%" src="https://lh3.googleusercontent.com/proxy/BrXfIzcoCWVmo6zAz1udcrhd6nXvekr0wXYXPn6fcWp4D8KCgsuPT9VlFLxLhErf0RL2I6cekGhO3kFvlPm-YmgK_OlhKIFHU68vlQ7lFQfq5HYZORNDEWGvnWE2tSRMH9FIFDDhftCf"></img>
+                </div>
+
+
+                <div className={style.temps}>
+                    <div className={style.min}>
+                        {this.props.data[1]}°
+                    </div>
+                    <div className={style.max}>
+                        {this.props.data[2]}°
                     </div>
                 </div>
+
 
             </div>
         );

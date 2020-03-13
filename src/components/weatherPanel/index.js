@@ -120,7 +120,7 @@ export default class WeatherPanel extends Component {
 	{
 		let timestamp = weatherData['list']['7']['dt'];
 		let day = new Date(timestamp * 1000);
-		let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 		let firstDayMinTemp = null;
 		let firstDayMaxTemp = null;

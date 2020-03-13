@@ -3,15 +3,19 @@ import { h, render, Component } from 'preact';
 import style from './style';
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 import DailyTile from '../dailyTile';
+import HourlyTile from '../hourlyTile';
 
 
 export default class WeatherPanel extends Component {
 
 	constructor(props){
 		super(props);
+
+		let now = new Date();
 		this.setState({
 			weatherDataParsed: false,
 			showDaily: true,
+			currentHour: now.getHours(),
 			element0Data: [],
 			element1Data: [],
 			element2Data: [],
@@ -64,7 +68,6 @@ export default class WeatherPanel extends Component {
 			}
 		}
 		
-		console.log(WeatherData);
 		if(this.state.display)
 		{
 			return (
@@ -78,32 +81,32 @@ export default class WeatherPanel extends Component {
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element0Data} />
-								: null
+								: <HourlyTile data = {this.state.element0Data} />
 							}
 							
 						</div>
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element1Data} />
-								: null
+								: <HourlyTile data = {this.state.element1Data} />
 							}
 						</div>
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element2Data} />
-								: null
+								: <HourlyTile data = {this.state.element2Data} />
 							}
 						</div>
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element3Data} />
-								: null
+								: <HourlyTile data = {this.state.element3Data} />
 							}
 						</div>
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element4Data} />
-								: null
+								: <HourlyTile data = {this.state.element4Data} />
 							}
 						</div>
 					</div>
@@ -117,6 +120,9 @@ export default class WeatherPanel extends Component {
 		if(type == "DAILY")
 		{
 			this.parseDailyData(weatherData);
+		} else if(type == "HOURLY")
+		{
+			this.parseHourlyData(weatherData);
 		}
 	}
 
@@ -195,6 +201,32 @@ export default class WeatherPanel extends Component {
 
 		this.setState({
 			element1Title: days[day.getDay()%7],
+			weatherDataParsed : true
+		});
+	}
+
+	parseHourlyData(weatherData)
+	{
+		console.log(weatherData);
+		this.setState({ element0Data: ['Now', Math.floor(weatherData['list']['0']['main']['temp'])] });
+
+		for(let index = 1; index <= 4; index++)
+		{
+			let key = index.toString();
+			let hour = new Date(weatherData['list'][key].dt_txt).getHours();
+			let temp = Math.floor(weatherData['list'][key]['main']['temp']);
+
+			if(index == 1)
+				this.setState({ element1Data: [hour, temp] });
+			else if(index == 2)
+				this.setState({ element2Data: [hour, temp] });
+			else if(index == 3)
+				this.setState({ element3Data: [hour, temp] });
+			else if(index == 4)
+				this.setState({ element4Data: [hour, temp] });	
+		}
+
+		this.setState({
 			weatherDataParsed : true
 		});
 	}

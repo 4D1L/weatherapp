@@ -26,7 +26,14 @@ export default class ButtonRow extends Component {
                         <FontAwesomeIcon icon="tshirt" inverse transform="shrink-8" />
                     </span>
                 </button>
-                    
+
+                <button class={style.button} onClick={() => this.props.action("WEATHERPANEL")}>
+                    <span className="fa-layers fa-fw fa-5x">
+                        <FontAwesomeIcon icon="circle" color="cyan" transform="shrink-2" />
+                        <FontAwesomeIcon icon="clock" inverse transform="shrink-8" />
+                    </span>
+                </button>
+
                 <button class={style.button} onClick={() => this.props.action("INFO")}>
                     <span className="fa-layers fa-fw fa-3x">
                         <FontAwesomeIcon icon="circle" color="green" transform="shrink-2" />

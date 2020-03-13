@@ -12,6 +12,8 @@ import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 import ClothingPanel from '../clothingPanel';
+import InfoPanel from '../infoPanel';
+import WeatherPanel from '../weatherPanel';
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
@@ -22,13 +24,20 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({ display: false });
+		this.setState({ 
+			display: false,
+			displayHourly: false,
+			todayMin: "",
+			todayMax: "",
+			//weatherData: []
+		});
 	}
 
 	componentDidMount()
 	{
 		this.fetchWeatherData();
 	}
+
 	// a call to fetch weather data via wunderground
 	fetchWeatherData = () => {
 		// API URL with a structure of : ttp://api.wunderground.com/api/key/feature/q/country-code/city.json
@@ -44,9 +53,34 @@ export default class Iphone extends Component {
 	}
 
 	buttonRowHandler(button) {
-		if(button == 'CLOTHING')
+		if(button == 'CLOTHING' || button == 'INFO')
 		{
-			this.clothingPanel.toggle();
+			if(button == 'CLOTHING')
+			{	
+				if(this.infoPanel.state.display)
+				{
+					this.infoPanel.toggle();
+				}
+				this.clothingPanel.toggle();
+			} else if(button == 'INFO')
+			{
+				if(this.clothingPanel.state.display)
+				{
+					this.clothingPanel.toggle();
+				}
+				this.infoPanel.toggle();
+			}
+			
+		} else if(button == "WEATHERPANEL")
+		{
+			this.weatherPanel.toggle();
+			if(this.state.displayHourly == false)
+			{
+				this.setState({ displayHourly: true });
+				console.log('CHANGE to hourly;');				
+			} else {
+				this.setState({ displayHourly: false });
+			}
 		}
 	}
 
@@ -61,35 +95,83 @@ export default class Iphone extends Component {
 				<div class={ style.header }>
 					<div class={ style.city }>{ this.state.locate }</div>
 					<div class={ style.conditions }>{ this.state.cond }</div>
-					<span class={ tempStyles }>{ this.state.temp }</span>
+					<div class={ style.currentTemperatures }>
+						<span class={ style.min }>Min: { this.state.todayMin }</span>
+						<span class={ tempStyles }>{ this.state.temp }</span>
+						<span class={ style.max }>Max: { this.state.todayMax }</span>
+					</div>
 				</div>
 				<ButtonRow action={this.buttonRowHandler.bind(this)} />
 
 				<section>
 					<ClothingPanel ref={(comp) => this.clothingPanel = comp} />
+					<InfoPanel ref={(comp) => this.infoPanel = comp} />
 				</section>
 
-				<div class={ style.details }>
-					<p>Weather</p>
-				</div>
+				<section class={ style.details }>
+					<WeatherPanel data={this.state.weatherData} ref={(comp) => this.weatherPanel = comp} />
+				</section>
 				<div class= { style_iphone.container }> 
-					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
 			</div>
 		);
 	}
 
 	parseResponse = (parsed_json) => {
-		console.log(parsed_json);
+		//console.log(parsed_json);
 		var location = parsed_json['city']['name'];
 		var temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
 		var conditions = parsed_json['list']['0']['weather']['0']['description'];
 
+		var minTempToday = this.getTodayMinTemp(parsed_json) + "°";
+		var maxTempToday = this.getTodayMaxTemp(parsed_json) + "°";
+		//console.log(minTempToday);
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,
 			temp: temp_c,
-			cond : conditions
+			cond : conditions,
+			todayMin: minTempToday,
+			todayMax: maxTempToday,
+			weatherData: parsed_json
 		});      
 	}
+
+	getTodayMinTemp = (weatherData) => {
+		let minimum = null;
+		for(let i = 0; i <= 7; i++) {
+			let index = i.toString();
+			if(minimum === null) {
+				minimum = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
+				continue;
+			}
+
+			let temp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
+
+			if(temp < minimum) {
+				minimum = temp;
+			}
+		}
+
+		return minimum;
+	};
+
+	getTodayMaxTemp = (weatherData) => {
+		let maximum = null;
+		for(let i = 0; i <= 7; i++) {
+			let index = i.toString();
+			if(maximum === null) {
+				maximum = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
+				continue;
+			}
+
+			let temp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
+
+			if(temp > maximum) {
+				maximum = temp;
+			}
+		}
+
+		return maximum;
+	};
 }

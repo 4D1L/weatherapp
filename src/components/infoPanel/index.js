@@ -7,6 +7,7 @@ export default class InfoPanel extends Component {
 
 	state = {
 		display: false,
+		fact: ""
 	}
 
 	toggle = (state) => {
@@ -23,6 +24,7 @@ export default class InfoPanel extends Component {
 			return (
 				<div class={style.panel}> 
 					<h1>Info Panel</h1>
+					<p>{this.state.fact}</p>
 				</div>
 			);
 		}

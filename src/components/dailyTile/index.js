@@ -2,6 +2,7 @@
 import { h, render, Component } from 'preact';
 import style from './style';
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
+import WeatherIcon from '../weatherIcon';
 
 export default class DailyTile extends Component {
 
@@ -18,16 +19,16 @@ export default class DailyTile extends Component {
                 </div>
 
                 <div className={style.icon}>
-                    <img style="width: 55%" src="https://lh3.googleusercontent.com/proxy/BrXfIzcoCWVmo6zAz1udcrhd6nXvekr0wXYXPn6fcWp4D8KCgsuPT9VlFLxLhErf0RL2I6cekGhO3kFvlPm-YmgK_OlhKIFHU68vlQ7lFQfq5HYZORNDEWGvnWE2tSRMH9FIFDDhftCf"></img>
+                    <WeatherIcon icon={this.props.data[1]} width="75%" />
                 </div>
 
 
                 <div className={style.temps}>
                     <div className={style.min}>
-                        {this.props.data[1]}°
+                        {this.props.data[2]}°
                     </div>
                     <div className={style.max}>
-                        {this.props.data[2]}°
+                        {this.props.data[3]}°
                     </div>
                 </div>
 

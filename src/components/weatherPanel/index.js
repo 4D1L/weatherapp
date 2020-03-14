@@ -136,6 +136,9 @@ export default class WeatherPanel extends Component {
 		let day = new Date(timestamp * 1000);
 		let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+
+		let firstDayCondition = weatherData['list']['0']['weather']['0']['main'];
+		
 		// For each of the readings available, calculating the minimum and the maximum temperature.
 		let firstDayMinTemp = null;
 		let firstDayMaxTemp = null;
@@ -164,11 +167,14 @@ export default class WeatherPanel extends Component {
 		}
 		
 		// Populate the first tile with the data that was found.
-		this.setState({ element0Data : [days[day.getDay()%7], firstDayMinTemp, firstDayMaxTemp] });
+		this.setState({ element0Data : [days[day.getDay()%7], firstDayCondition, firstDayMinTemp, firstDayMaxTemp] });
 
 		// Find the minimum and maximum temperature for the remaining days as they have full data sets.
 		for(let dayIndex = 1; dayIndex <= 4; dayIndex++)
 		{
+
+			let condition = weatherData['list'][(dayIndex * 8) - 1]['weather']['0']['main'];
+
 			let minimumTemp = null;
 			let maximumTemp = null;
 
@@ -199,13 +205,13 @@ export default class WeatherPanel extends Component {
 
 			// Populate the tile with the correct data.
 			if(dayIndex == 1)
-				this.setState({ element1Data: [days[(day.getDay()+1)%7], minimumTemp, maximumTemp] });
+				this.setState({ element1Data: [days[(day.getDay()+1)%7], condition, minimumTemp, maximumTemp] });
 			else if(dayIndex == 2)
-				this.setState({ element2Data: [days[(day.getDay()+2)%7], minimumTemp, maximumTemp] });
+				this.setState({ element2Data: [days[(day.getDay()+2)%7], condition, minimumTemp, maximumTemp] });
 			else if(dayIndex == 3)
-				this.setState({ element3Data: [days[(day.getDay()+3)%7], minimumTemp, maximumTemp] });
+				this.setState({ element3Data: [days[(day.getDay()+3)%7], condition, minimumTemp, maximumTemp] });
 			else if(dayIndex == 4)
-				this.setState({ element4Data: [days[(day.getDay()+4)%7], minimumTemp, maximumTemp] });				
+				this.setState({ element4Data: [days[(day.getDay()+4)%7], condition, minimumTemp, maximumTemp] });				
 		}
 
 		// As the data has been parsed, prevent it from being parsed again.
@@ -216,8 +222,9 @@ export default class WeatherPanel extends Component {
 
 	parseHourlyData(weatherData)
 	{
+		console.log(weatherData);
 		// Populate the first tile's data.
-		this.setState({ element0Data: ['Now', Math.floor(weatherData['list']['0']['main']['temp'])] });
+		this.setState({ element0Data: ['Now', weatherData['list']['0']['weather']['0']['main'], Math.floor(weatherData['list']['0']['main']['temp'])] });
 
 		for(let index = 1; index <= 4; index++)
 		{
@@ -229,15 +236,17 @@ export default class WeatherPanel extends Component {
 
 			let temp = Math.floor(weatherData['list'][key]['main']['temp']);
 
+			let condition = weatherData['list'][key]['weather']['0']['main'];
+
 			// Populate the remaining tiles.
 			if(index == 1)
-				this.setState({ element1Data: [hour, temp] });
+				this.setState({ element1Data: [hour, condition, temp] });
 			else if(index == 2)
-				this.setState({ element2Data: [hour, temp] });
+				this.setState({ element2Data: [hour, condition, temp] });
 			else if(index == 3)
-				this.setState({ element3Data: [hour, temp] });
+				this.setState({ element3Data: [hour, condition, temp] });
 			else if(index == 4)
-				this.setState({ element4Data: [hour, temp] });	
+				this.setState({ element4Data: [hour, condition, temp] });	
 		}
 
 		// As the data has been parsed, prevent it from being parsed again.

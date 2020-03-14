@@ -11,9 +11,12 @@ import Button from '../button';
 import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
+import WeatherIcon from '../weatherIcon';
 import ClothingPanel from '../clothingPanel';
 import InfoPanel from '../infoPanel';
 import WeatherPanel from '../weatherPanel';
+
+//import sunny from '../../assets/icons/weather/sunny.png';
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
@@ -29,6 +32,8 @@ export default class Iphone extends Component {
 			displayHourly: false,
 			todayMin: "",
 			todayMax: "",
+			condition: "",
+			dataParsed: false
 			//weatherData: []
 		});
 	}
@@ -94,7 +99,15 @@ export default class Iphone extends Component {
 			<div class={ style.container }>
 				<div class={ style.header }>
 					<div class={ style.city }>{ this.state.locate }</div>
-					<div class={ style.conditions }>{ this.state.cond }</div>
+					<div class={ style.conditions }>{ this.state.description }</div>
+					
+					<div class={style.icon}>
+						{this.state.dataParsed
+							? <WeatherIcon icon={this.state.condition} width="150px" />
+							: null
+						}
+					</div>
+					
 					<div class={ style.currentTemperatures }>
 						<span class={ style.min }>Min: { this.state.todayMin }</span>
 						<span class={ tempStyles }>{ this.state.temp }</span>
@@ -119,21 +132,24 @@ export default class Iphone extends Component {
 
 	parseResponse = (parsed_json) => {
 		//console.log(parsed_json);
-		var location = parsed_json['city']['name'];
-		var temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
-		var conditions = parsed_json['list']['0']['weather']['0']['description'];
+		let location = parsed_json['city']['name'];
+		let temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
+		let description = parsed_json['list']['0']['weather']['0']['description'];
+		var condition = parsed_json['list']['0']['weather']['0']['main'];
 
-		var minTempToday = this.getTodayMinTemp(parsed_json) + "°";
-		var maxTempToday = this.getTodayMaxTemp(parsed_json) + "°";
-		//console.log(minTempToday);
+		let minTempToday = this.getTodayMinTemp(parsed_json) + "°";
+		let maxTempToday = this.getTodayMaxTemp(parsed_json) + "°";
+		console.log(condition);
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,
 			temp: temp_c,
-			cond : conditions,
+			description : description,
 			todayMin: minTempToday,
 			todayMax: maxTempToday,
-			weatherData: parsed_json
+			weatherData: parsed_json,
+			condition: condition,
+			dataParsed: true
 		});      
 	}
 

@@ -1,6 +1,9 @@
 // import preact
 import { h, render, Component } from 'preact';
 
+//import loader
+import { Pulsate } from 'styled-loaders';
+
 // import stylesheets for ipad & button
 import style from './style';
 import style_iphone from '../button/style_iphone';
@@ -92,10 +95,10 @@ export default class Iphone extends Component {
 	// the main render method for the iphone component
 	render() {
 
-		if(this.state.dataParsed) {
+		if(!this.state.dataParsed) {
 			return (
 				<div class={ style.container }>
-					
+					<Pulsate color={'#33b7de'} />
 				</div>
 			);
 		}

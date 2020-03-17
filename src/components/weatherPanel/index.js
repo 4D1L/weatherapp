@@ -28,7 +28,16 @@ export default class WeatherPanel extends Component {
 
 			// display state
 			display: true
+
+			
 		});
+
+		if(this.state.showDaily)
+		{
+			this.parseData(this.props.data, "DAILY");
+		} else {
+			this.parseData(this.props.data, "HOURLY");
+		}
 	}
 
 	toggle = (state) => {
@@ -50,26 +59,7 @@ export default class WeatherPanel extends Component {
 	}
 
 	// rendering a function when the button is clicked
-	render() {
-		var WeatherData = this.props.data;
-
-		// If the API data fetched by the parent has failed to load, do not parse the data.
-		if(!(WeatherData instanceof Object))
-		{
-			return;
-		}
-
-		// If the data has successfully been retrieved, parse it depending on the view requested.
-		if(!this.state.weatherDataParsed)
-		{
-			if(this.state.showDaily)
-			{
-				this.parseData(WeatherData, "DAILY");
-			} else {
-				this.parseData(WeatherData, "HOURLY");
-			}
-		}
-		
+	render() {		
 		if(this.state.display)
 		{
 			return (

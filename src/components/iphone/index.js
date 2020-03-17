@@ -6,11 +6,10 @@ import { Pulsate } from 'styled-loaders';
 
 // import stylesheets for ipad & button
 import style from './style';
-import style_iphone from '../button/style_iphone';
+
 // import jquery for API calls
 import $ from 'jquery';
 // import the Button component
-import Button from '../button';
 import ButtonRow from '../buttonRow';
 
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'

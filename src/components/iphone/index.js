@@ -139,8 +139,7 @@ export default class Iphone extends Component {
 				<section class={ style.details }>
 					<WeatherPanel data={this.state.weatherData} ref={(comp) => this.weatherPanel = comp} />
 				</section>
-				<div class= { style_iphone.container }> 
-				</div>
+				
 			</div>
 		);
 	}

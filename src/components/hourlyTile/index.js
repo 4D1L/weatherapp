@@ -4,7 +4,7 @@ import style from './style';
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
 import WeatherIcon from '../weatherIcon';
 
-export default class DailyTile extends Component {
+export default class HourlyTile extends Component {
 
 	constructor(props){
 		super(props);
@@ -15,7 +15,10 @@ export default class DailyTile extends Component {
         return (
             <div className={style.tile}> 
                 <div className={style.heading}>
-                    {this.props.data[0]}
+                    {this.props.data[0] != "Now"
+                        ? this.props.data[0] + ":00"
+                        : this.props.data[0]
+                    }
                 </div>
 
                 <div className={style.icon}>
@@ -23,13 +26,8 @@ export default class DailyTile extends Component {
                 </div>
 
 
-                <div className={style.temps}>
-                    <div className={style.min}>
-                        {this.props.data[2]}°
-                    </div>
-                    <div className={style.max}>
-                        {this.props.data[3]}°
-                    </div>
+                <div className={style.temp}>
+                    {this.props.data[2]}°
                 </div>
 
 

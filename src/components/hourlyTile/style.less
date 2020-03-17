@@ -1,0 +1,48 @@
+.tile
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    //align-content: flex-start;
+}
+
+.tile .heading
+{
+    //flex: 2 1 auto;
+    //align-self: auto;
+    flex: 0 1 auto;
+}
+
+.tile .icon
+{
+    flex: 2 1 auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    //align-self: flex-start;
+}
+
+.tile .right
+{
+    //flex-grow: 1;
+    flex: 1 1 auto;
+}
+
+.tile .temps
+{
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.tile .temps .min
+{
+    flex: 0 0 auto;
+    padding-right: 10px;
+}
+
+.tile .temps .max
+{
+    flex: 0 0 auto;
+}

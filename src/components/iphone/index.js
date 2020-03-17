@@ -1,6 +1,9 @@
 // import preact
 import { h, render, Component } from 'preact';
 
+//import loader
+import { Pulsate } from 'styled-loaders';
+
 // import stylesheets for ipad & button
 import style from './style';
 import style_iphone from '../button/style_iphone';
@@ -91,6 +94,15 @@ export default class Iphone extends Component {
 
 	// the main render method for the iphone component
 	render() {
+
+		if(!this.state.dataParsed) {
+			return (
+				<div class={ style.container }>
+					<Pulsate color={'#33b7de'} />
+				</div>
+			);
+		}
+
 		// check if temperature data is fetched, if so add the sign styling to the page
 		const tempStyles = this.state.temp ? `${style.temperature} ${style.filled}` : style.temperature;
 		
@@ -117,7 +129,10 @@ export default class Iphone extends Component {
 				<ButtonRow action={this.buttonRowHandler.bind(this)} />
 
 				<section>
-					<ClothingPanel ref={(comp) => this.clothingPanel = comp} />
+					<ClothingPanel data={this.state.weatherData} ref={(comp) => this.clothingPanel = comp} 
+									condition={this.state.condition} temp={this.state.temp} 
+										min={this.state.todayMin} max={this.state.todayMax} 
+										/>
 					<InfoPanel ref={(comp) => this.infoPanel = comp} />
 				</section>
 
@@ -139,7 +154,7 @@ export default class Iphone extends Component {
 
 		let minTempToday = this.getTodayMinTemp(parsed_json) + "°";
 		let maxTempToday = this.getTodayMaxTemp(parsed_json) + "°";
-		console.log(condition);
+
 		// set states for fields so they could be rendered later on
 		this.setState({
 			locate: location,

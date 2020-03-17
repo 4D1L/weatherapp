@@ -2,7 +2,7 @@
 import { h, render, Component } from 'preact';
 import style from './style';
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
-import WeatherIcon from '../weatherIcon';
+import WeatherIcon from '../../../weatherIcon';
 
 export default class HourlyTile extends Component {
 

@@ -2,8 +2,8 @@
 import { h, render, Component } from 'preact';
 import style from './style';
 import { FontAwesomeIcon } from '@aduh95/preact-fontawesome'
-import DailyTile from '../dailyTile';
-import HourlyTile from '../hourlyTile';
+import DailyTile from './tiles/daily';
+import HourlyTile from './tiles/hourly';
 
 
 export default class WeatherPanel extends Component {

@@ -67,15 +67,19 @@ export default class Iphone extends Component {
 				if(this.infoPanel.state.display)
 				{
 					this.infoPanel.toggle();
+					this.buttonRow.toggle("INFO", false);
 				}
 				this.clothingPanel.toggle();
+				this.buttonRow.toggle("CLOTHING", this.clothingPanel.state.display);
 			} else if(button == 'INFO')
 			{
 				if(this.clothingPanel.state.display)
 				{
 					this.clothingPanel.toggle();
+					this.buttonRow.toggle("CLOTHING", false);
 				}
 				this.infoPanel.toggle();
+				this.buttonRow.toggle("INFO", this.infoPanel.state.display);
 			}
 			
 		} else if(button == "WEATHERPANEL")
@@ -84,9 +88,10 @@ export default class Iphone extends Component {
 			if(this.state.displayHourly == false)
 			{
 				this.setState({ displayHourly: true });
-				console.log('CHANGE to hourly;');				
+				this.buttonRow.state.weatherPanelIcon = "calendar-week";
 			} else {
 				this.setState({ displayHourly: false });
+				this.buttonRow.state.weatherPanelIcon = "clock";
 			}
 		}
 	}
@@ -125,7 +130,7 @@ export default class Iphone extends Component {
 						<span class={ style.max }>Max: { this.state.todayMax }</span>
 					</div>
 				</div>
-				<ButtonRow action={this.buttonRowHandler.bind(this)} />
+				<ButtonRow action={this.buttonRowHandler.bind(this)} ref={(comp) => this.buttonRow = comp} />
 
 				<section>
 					<ClothingPanel data={this.state.weatherData} ref={(comp) => this.clothingPanel = comp} 
@@ -144,7 +149,6 @@ export default class Iphone extends Component {
 	}
 
 	parseResponse = (parsed_json) => {
-		//console.log(parsed_json);
 		let location = parsed_json['city']['name'];
 		let temp_c = Math.floor(parsed_json['list']['0']['main']['temp']);
 		let description = parsed_json['list']['0']['weather']['0']['description'];

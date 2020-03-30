@@ -42,7 +42,6 @@ export default class WeatherIcon extends Component {
     
     getIconResource(name)
     {
-        console.log(`Icon -> ${name}`);
         let condition = name.toLowerCase();
         if(condition == "clear")
         {

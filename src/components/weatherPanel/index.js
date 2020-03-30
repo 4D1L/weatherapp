@@ -212,7 +212,6 @@ export default class WeatherPanel extends Component {
 
 	parseHourlyData(weatherData)
 	{
-		console.log(weatherData);
 		// Populate the first tile's data.
 		this.setState({ element0Data: ['Now', weatherData['list']['0']['weather']['0']['main'], Math.floor(weatherData['list']['0']['main']['temp'])] });
 

@@ -44,7 +44,7 @@ export default class ButtonRow extends Component {
             if(state == true) {
                 this.setState({
                     clothingPanelIcon: "times",
-                    clothingPanelIconBg: "red"
+                    clothingPanelIconBg: "#af1212"
                 });
             } else {
                 this.defaultClothingPanelIconStates();
@@ -53,7 +53,7 @@ export default class ButtonRow extends Component {
             if(state == true) {
                 this.setState({
                     infoPanelIcon: "times",
-                    infoPanelIconBg: "red"
+                    infoPanelIconBg: "#af1212"
                 });
             } else {
                 this.defaultInfoPanelIconStates();

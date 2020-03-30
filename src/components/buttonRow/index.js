@@ -67,7 +67,7 @@ export default class ButtonRow extends Component {
 			<div class={style.buttons}>
                 <button class={style.button} onMouseEnter={this.buttonHover.bind(this)} onClick={() => this.props.action("CLOTHING")}>
                     <span className="fa-layers fa-fw fa-3x">
-                        <FontAwesomeIcon icon="circle" color={this.state.clothingPanelIconBg} transform="shrink-2" />
+                        <FontAwesomeIcon icon="circle" color={this.state.clothingPanelIconBg} />
                         <FontAwesomeIcon icon={this.state.clothingPanelIcon} inverse transform="shrink-8" />
                     </span>
                 </button>
@@ -81,7 +81,7 @@ export default class ButtonRow extends Component {
 
                 <button class={style.button} onClick={() => this.props.action("INFO")}>
                     <span className="fa-layers fa-fw fa-3x">
-                        <FontAwesomeIcon icon="circle" color={this.state.infoPanelIconBg} transform="shrink-2" />
+                        <FontAwesomeIcon icon="circle" color={this.state.infoPanelIconBg} />
                         <FontAwesomeIcon icon={this.state.infoPanelIcon} inverse transform="shrink-8" />
                     </span>
                 </button>

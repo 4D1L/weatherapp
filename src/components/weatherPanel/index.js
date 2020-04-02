@@ -32,6 +32,7 @@ export default class WeatherPanel extends Component {
 			
 		});
 
+		// Parse data depending on the mode, default being Daily.
 		if(this.state.showDaily)
 		{
 			this.parseData(this.props.data, "DAILY");
@@ -51,6 +52,7 @@ export default class WeatherPanel extends Component {
 		// Parse the data according to the new display state.
 		this.setState({ weatherDataParsed: false });
 
+		// Parse data depending on the mode.
 		if(this.state.showDaily) {
 			this.parseData(this.props.data, "DAILY");
 		} else {
@@ -64,12 +66,15 @@ export default class WeatherPanel extends Component {
 		{
 			return (
 				<div className={style.panel}>
+					{/* Display a heading depending on the mode */}
 					{this.state.showDaily
 						? <h1>This week</h1>
 						: <h1>Today</h1>
 					}
 					
 					<div className={style.weatherTable}>
+						{/* Create a table of tiles, displaying either a DailyTile or an HourlyTile depnding on the mode. */}
+						{/* Pass the data concerning that forecast to the tile to present. */}
 						<div className={style.day}>
 							{this.state.showDaily
 								? <DailyTile data = {this.state.element0Data} />
@@ -127,6 +132,7 @@ export default class WeatherPanel extends Component {
 		let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 
+		// Store the condition of the first day.
 		let firstDayCondition = weatherData['list']['0']['weather']['0']['main'];
 		
 		// For each of the readings available, calculating the minimum and the maximum temperature.
@@ -137,20 +143,24 @@ export default class WeatherPanel extends Component {
 			let index = hours.toString();
 			if(firstDayMinTemp == null)
 			{
+				// If the minimum temperature is not set, then set it.
 				firstDayMinTemp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
 				continue;
 			}
 
 			if(firstDayMaxTemp == null)
 			{
+				// If the maximum temperature is not set, then set it.
 				firstDayMaxTemp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
 				continue;
 			}
 
+			// If the current forecast temperature is lower than the minimum temperature, then make that the minimum temperature.
 			let minHourlytemp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
 			if(minHourlytemp < firstDayMinTemp)
 				firstDayMinTemp = minHourlytemp;
 
+			// If the current forecast temperature is higher than the maximum temperature, then make that the maximum temperature.
 			let maxHourlytemp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
 			if(maxHourlytemp > firstDayMaxTemp)
 				firstDayMaxTemp = maxHourlytemp;		
@@ -173,19 +183,23 @@ export default class WeatherPanel extends Component {
 			{
 				let index = hourIndex.toString();
 				if(minimumTemp === null) {
+					// If the minimum temperature is not set, then set it.
 					minimumTemp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
 					continue;
 				}
 				if(maximumTemp === null) {
+					// If the maximum temperature is not set, then set it.
 					maximumTemp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
 					continue;
 				}
 
+				// If the current forecast temperature is lower than the minimum temperature, then make that the minimum temperature.
 				let minHourlytemp = parseInt(weatherData['list'][index]['main']['temp_min'], 10);
 				if(minHourlytemp < minimumTemp) {
 					minimumTemp = minHourlytemp;
 				}
 
+				// If the current forecast temperature is higher than the maximum temperature, then make that the maximum temperature.
 				let maxHourlyTemp = parseInt(weatherData['list'][index]['main']['temp_max'], 10);
 				if(maxHourlyTemp > maximumTemp) {
 					maximumTemp = maxHourlyTemp;
@@ -193,7 +207,9 @@ export default class WeatherPanel extends Component {
 
 			}
 
-			// Populate the tile with the correct data.
+			// Populate the array with the correct data which whille then be given to the the tile.
+
+			// Element 0: Day, Element 1: Condition name for icon, Element 2: Minimum Temperature, Element 3: Maximum Temperature
 			if(dayIndex == 1)
 				this.setState({ element1Data: [days[(day.getDay()+1)%7], condition, minimumTemp, maximumTemp] });
 			else if(dayIndex == 2)
@@ -228,6 +244,7 @@ export default class WeatherPanel extends Component {
 			let condition = weatherData['list'][key]['weather']['0']['main'];
 
 			// Populate the remaining tiles.
+			// Element 0: Day, Element 1: Condition name for icon, Element 2: Temperature
 			if(index == 1)
 				this.setState({ element1Data: [hour, condition, temp] });
 			else if(index == 2)

@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faCheckSquare, faCircle, faTshirt, faInfo, faSquare, faCheck, faClock, faCalendarWeek, faTimes } from '@fortawesome/free-solid-svg-icons'
 
+// Add Font Awesome icons to be used in the app.
 library.add(fab, faCheckSquare, faCircle, faTshirt, faInfo, faSquare, faCheck, faClock, faCalendarWeek, faTimes)
 
 // import required Components from 'components/'

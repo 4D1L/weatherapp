@@ -9,11 +9,13 @@ export default class ClothingPanel extends Component {
 	constructor(props){
         super(props);
 		
+		// Initial display state
 		this.state.display = false;
 	}
 
 
 	toggle = (state) => {
+		// If no boolean is provided, then the default behaviour is to toggle
 		if(typeof state === 'undefined')
 			this.setState({ display: !this.state.display });
 		else if(typeof state === 'boolean')
@@ -27,9 +29,12 @@ export default class ClothingPanel extends Component {
 			return (
 				<div class={style.panel}> 
 					<h1>Clothing</h1>
+
+					{/* Display short message about the conditions */}
 					<p class={style.description}>The temperature is <b>currently</b> {this.props.temp}°. 
 					The <b className={style.min}>minimum</b> temperature today will be {this.props.min} while the <b className={style.max}>maximum</b> temperature will be {this.props.max}.</p>
 				
+					{/* Generate clothing suggestions */}
 					<p class={style.clothingSuggestion}>{this.generateClothingText()}</p>
 				</div>
 			);

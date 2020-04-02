@@ -16,18 +16,21 @@ export default class WeatherIcon extends Component {
 	constructor(props){
         super(props);
         
+        // States to hold icon path.
         this.state.iconSrc = "";
         this.state.iconSrc = this.getIconResource(this.props.icon);
 
-		// button state
+		// icon class string
         this.state.iconClass = "";
         if(this.props.width != undefined)
         {
+            // If a width is supplied, then add it to the class string.
             this.state.iconClass += `width: ${this.props.width}; `;
         }
 
         if(this.props.height != undefined)
         {
+            // If a height is supplied, then add it to the class string.
             this.state.iconClass += `height: ${this.props.height}; `;
         }
     }
@@ -35,6 +38,7 @@ export default class WeatherIcon extends Component {
 
 	// rendering a function when the button is clicked
 	render() {
+        // Return an image of the icon.
 		return (
             <img src={this.state.iconSrc} style={this.state.iconClass}></img>
 		);
@@ -42,6 +46,7 @@ export default class WeatherIcon extends Component {
     
     getIconResource(name)
     {
+        // Convert the name of the icon to lowercase then retrieve the icon.
         let condition = name.toLowerCase();
         if(condition == "clear")
         {

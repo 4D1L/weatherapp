@@ -8,24 +8,22 @@ export default class ButtonRow extends Component {
 	// a constructor with initial set states
 	constructor(props){
 		super(props);
-		// button state
-        this.state.buttonClass = "";
 
+        // Set states for clock icon
         this.setState({
             weatherPanelIcon: "clock",
             weatherPanelIconBg: "#d79027"
         })
 
+        // Set states for clothing icon
         this.defaultClothingPanelIconStates();
 
+        // Set states for info icon
         this.defaultInfoPanelIconStates();
-    }
-    
-    buttonHover() {
-        console.log('Mouse');
     }
 
     defaultClothingPanelIconStates() {
+        // Set states for clothing icon
         this.setState({
             clothingPanelIcon: "tshirt",
             clothingPanelIconBg: "#004F8A"
@@ -33,6 +31,7 @@ export default class ButtonRow extends Component {
     }
 
     defaultInfoPanelIconStates() {
+        // Set states for info icon
         this.setState({
             infoPanelIcon: "info",
             infoPanelIconBg: "#69D63C"
@@ -40,6 +39,7 @@ export default class ButtonRow extends Component {
     }
 
     toggle(button, state) {
+        // Toggle between the icon and the close button.
         if(button === "CLOTHING") {
             if(state == true) {
                 this.setState({
@@ -47,6 +47,7 @@ export default class ButtonRow extends Component {
                     clothingPanelIconBg: "#af1212"
                 });
             } else {
+                // Revert back to original state
                 this.defaultClothingPanelIconStates();
             }
         } else if(button === "INFO") {
@@ -56,6 +57,7 @@ export default class ButtonRow extends Component {
                     infoPanelIconBg: "#af1212"
                 });
             } else {
+                // Revert back to original state
                 this.defaultInfoPanelIconStates();
             }
         }
@@ -65,13 +67,15 @@ export default class ButtonRow extends Component {
 	render() {
 		return (
 			<div class={style.buttons}>
-                <button class={style.button} onMouseEnter={this.buttonHover.bind(this)} onClick={() => this.props.action("CLOTHING")}>
+                {/* Clothing button has an icon of a t-shirt */}
+                <button class={style.button} onClick={() => this.props.action("CLOTHING")}>
                     <span className="fa-layers fa-fw fa-3x">
                         <FontAwesomeIcon icon="circle" color={this.state.clothingPanelIconBg} />
                         <FontAwesomeIcon icon={this.state.clothingPanelIcon} inverse transform="shrink-8" />
                     </span>
                 </button>
 
+                {/* Weather Panel toggle button has an icon of a clock or a calendar */}
                 <button class={style.button} onClick={() => this.props.action("WEATHERPANEL")}>
                     <span className="fa-layers fa-fw fa-5x">
                         <FontAwesomeIcon icon="circle" color={this.state.weatherPanelIconBg} transform="shrink-2" />
@@ -79,6 +83,7 @@ export default class ButtonRow extends Component {
                     </span>
                 </button>
 
+                {/* Info button has an icon of an 'i' */}
                 <button class={style.button} onClick={() => this.props.action("INFO")}>
                     <span className="fa-layers fa-fw fa-3x">
                         <FontAwesomeIcon icon="circle" color={this.state.infoPanelIconBg} />

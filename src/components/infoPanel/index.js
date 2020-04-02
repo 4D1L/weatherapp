@@ -14,6 +14,7 @@ export default class InfoPanel extends Component {
 			fact: ""
 		});
 
+		// Facts to use
 		this.facts = ["The wind doesn’t make a sound until it blows against an object.",
 				      "For each minute of the day, 1 billion tonnes of rain falls on the Earth."];
 	}
@@ -26,6 +27,7 @@ export default class InfoPanel extends Component {
 	}
 
 	componentDidMount() {
+		// When the component is loaded, choose a fact to use
 		this.setState({ fact: this.getRandomFact() });
 	}
 
@@ -33,6 +35,7 @@ export default class InfoPanel extends Component {
 	render() {
 		if(this.state.display)
 		{
+			// If the panel is being displayed, display the content.
 			return (
 				<div class={style.panel}> 
 					<h1>Fact</h1>
